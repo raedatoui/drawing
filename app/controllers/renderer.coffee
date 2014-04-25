@@ -1,7 +1,6 @@
 Spine = require('spine')
 BaseController = require('controllers/base')
 Cell = require('controllers/cell')
-Pixel = require('models/pixel')
 Command = require('models/command')
 
 module.exports = class Renderer extends BaseController
@@ -25,16 +24,12 @@ module.exports = class Renderer extends BaseController
     super
     Spine.bind "command", @consume
 
-  # prepareWithModel: ->
-
-  consume: (command) =>
+  consume: (command,animate=true) =>
     switch command.name
       when 'C'
-        @el.empty()
-        @render()
-        setTimeout =>
-          @createGrid(command)
-        , 250
+        @canvas.empty()
+        @createGrid(command)
+
       when 'L'
         @drawLine command
 
@@ -42,13 +37,13 @@ module.exports = class Renderer extends BaseController
         @drawRectangle command
 
       when 'B'
-        @floodFill command.args.x,command.args.y, command.args.c
+        @floodFill command.args.x,command.args.y, command.args.c,animate
 
       when 'Q'
         @quitGame()
 
   createGrid: (command) ->
-    # @message.hide()
+    @message.hide()
     @el.removeClass 'quit'
     @canvasWidth = command.args.w
     @canvasHeight = command.args.h
@@ -60,18 +55,13 @@ module.exports = class Renderer extends BaseController
       @cells.push []
       j = 0
       while j < command.args.w
+        debugger
         cell = new Cell
-        # pixel = new Pixel
-        # pixel.state = ''
-        # pixel.x = i
-        # pixel.y = j
-        # pixel.save()
-        @appendChildTo cell, $("#tr-#{i}")
+        @appendChildTo cell, $("#tr-#{i}"), {x:j, y:i}
         @cells[i].push cell
         j++
 
       i++
-    console.log @cells
 
   drawLine: (command) ->
     x1 = command.args.x1-1
@@ -132,7 +122,7 @@ module.exports = class Renderer extends BaseController
     @drawLine bottom
 
   # x,y coord transformed to look up cells in rows
-  floodFill: (x,y,color) ->
+  floodFill: (x,y,color,animate) ->
     if x <= @canvasWidth and x > 0 and y<= @canvasHeight and y > 0
       cell = @cells[y-1][x-1]
 
@@ -141,18 +131,26 @@ module.exports = class Renderer extends BaseController
       else
         return
 
-      setTimeout =>
-        @floodFill(x,y-1,color)
+      if animate
+        #animating the algorithm
         setTimeout =>
-          @floodFill(x,y+1,color)
+          @floodFill(x,y-1,color,animate)
           setTimeout =>
-            @floodFill(x+1,y,color)
+            @floodFill(x,y+1,color,animate)
             setTimeout =>
-              @floodFill(x-1,y,color)
-            ,@duration
+              @floodFill(x+1,y,color,animate)
+              setTimeout =>
+                @floodFill(x-1,y,color,animate)
+              ,@duration
+            , @duration
           , @duration
         , @duration
-      , @duration
+
+      else #testing purposes
+        @floodFill(x,y-1,color,animate)
+        @floodFill(x,y+1,color,animate)
+        @floodFill(x+1,y,color,animate)
+        @floodFill(x-1,y,color,animate)
 
   quitGame: ->
     @el.addClass 'quit'

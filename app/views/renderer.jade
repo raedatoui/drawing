@@ -1,18 +1,17 @@
 table
 .message
   .content
-    p Thank you!
+    h5 Thank you!
 
     h5 In case you haven't noticed, this app does a few extra things
     ul
       li user input validation: ensure parameters are integers, color is hex, and commands are correct
       li can't execute an L, R or B comand until a C is executed first
       li check if coordinates don't exceed canvas dimensions
-      li checks that x1 is smaller than x2, y1 smaller than y2
       li added actual coloring to the filling cells and some animation to see the algorithm in action
       li allow clearing the board by execute a new C command and creating a new canvas
-      li the app can take an array of commands and auto execute the program
-
+      li the app can take an array of commands and auto execute the program. use the button to see that in action
+      li tests are located in the test file, using jasmine. the test suite is only concerned with the renderer and verifies the state of the canvas. the same commands are used in the specs
     h5 Tech
     ul
       li

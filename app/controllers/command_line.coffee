@@ -18,20 +18,30 @@ module.exports = class CommandLine extends BaseController
 
   events:
     'keyup input'      : 'onKeyup'
+    'click button'     : 'loadProgram'
 
-  program: ["C 20 4", "L 1 2 6 2", "L 6 3 6 4", "R 16 1 20 3", "B 10 3 #F44", "Q"]
+  sample: ["C 20 15", "L 5 2 20 2", "L 17 6 17 15", "R 2 5 13 12", "B 10 3 #F44"]
+  challenge: ["C 20 4", "L 1 2 6 2", "L 6 3 6 4", "R 16 1 20 3", "B 10 3 #77a6d2"]
+  program
 
   constructor: ->
     super
     Spine.bind 'error', (m) =>
       @showError m
 
-    # @program.reverse()
-    # setInterval @consumeProgram, 1000
+  loadProgram: (e) ->
+    if $(e.target).hasClass 'challenge'
+      @program = @challenge.slice(0)
+    else
+      @program = @sample.slice(0)
+
+    @program.reverse()
+    setInterval @consumeProgram, 1000
 
   consumeProgram: =>
     if @program.length
       cmd = @program.pop()
+      @commandInput.val(cmd)
       v = @validInput(cmd)
       @processCommand v
     else
@@ -131,4 +141,4 @@ module.exports = class CommandLine extends BaseController
     command.args = args
     command.save()
     Spine.trigger 'command', command
-    @commandInput.val ''
+    # @commandInput.val ''

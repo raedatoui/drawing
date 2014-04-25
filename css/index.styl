@@ -59,13 +59,19 @@ h1
     width 300px
     line-height 100%
     height 100%
+    border-box()
   .error
     float left
     color red
     font-size 10px
     display none
     line-height 100%
-
+  button
+    float left
+    font-size 16px
+    line-height 100%
+    height 100%
+    margin-left 5px
 
 .renderer
   width 90%
@@ -103,6 +109,14 @@ h1
     text-align center
     overflow hidden
     white-space nowrap
-
+    .mark
+      display block
+    .coord
+      display none
+    &:hover
+      .mark
+        display none
+      .coord
+        display block
   li
     margin-bottom 8px

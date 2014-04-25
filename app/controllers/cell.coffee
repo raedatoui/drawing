@@ -5,22 +5,27 @@ module.exports = class Cell extends BaseController
 
   tag: 'td'
   state: ''
+  template: 'cell'
+
+  elements:
+    '.mark' : 'mark'
+    '.coord' : 'coord'
 
   constructor: ->
     super
 
   render: ->
     super
-    @el.html '&nbsp;'
+    @mark.html '&nbsp;'
 
   check: ->
     @state = 'x'
-    @el.html "x"
+    @mark.html "x"
     @el.css 'color', 'black'
 
   colorize: (color) ->
     @state = 'o'
-    @el.html "&#x25cf"
+    @mark.html "&#x25cf"
     @el.css 'color', color
 
 
