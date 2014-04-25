@@ -52,7 +52,7 @@ module.exports = class CommandLine extends BaseController
       @submit()
 
   submit: ->
-    v = @validInput(@commandInput.val())
+    v = @validInput(@commandInput.val().toUpperCase())
     @processCommand v
 
   processCommand: (v) ->

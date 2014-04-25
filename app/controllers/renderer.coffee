@@ -157,3 +157,4 @@ module.exports = class Renderer extends BaseController
 
   onTransitionEnd: ->
     @message.show()
+    @el.removeClass 'quit'
