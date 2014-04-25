@@ -52,6 +52,7 @@ h1
   height 3%
   h2
     font-size 14px
+    margin 4px 0
   input
     float left
     font-size 16px
@@ -69,15 +70,16 @@ h1
 .renderer
   width 90%
   height 90%
-  position absolute
+  position relative
   top 9%
-  left 5%
+  border-box()
+  // left 5%
   // background-color rgba(255,44,44,0.2)
   border 1px dashed black
   margin auto
   &.quit
     transform(rotateY(720deg))
-    transition(4s, all, ease-out)
+    transition(2s, all, ease-out)
   .message
     width 100%
     height 100%
@@ -85,6 +87,11 @@ h1
     top 0
     left 0
     background-color #ccc
+    display none
+    .content
+      padding 10px
+      h5
+        font-size 16px
 
   table
     width 100%
@@ -96,3 +103,6 @@ h1
     text-align center
     overflow hidden
     white-space nowrap
+
+  li
+    margin-bottom 8px

@@ -26,8 +26,8 @@ module.exports = class CommandLine extends BaseController
     Spine.bind 'error', (m) =>
       @showError m
 
-    @program.reverse()
-    setInterval @consumeProgram, 1000
+    # @program.reverse()
+    # setInterval @consumeProgram, 1000
 
   consumeProgram: =>
     if @program.length

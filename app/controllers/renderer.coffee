@@ -11,16 +11,21 @@ module.exports = class Renderer extends BaseController
 
   elements:
     'table' : 'canvas'
+    '.message' : 'message'
+
+  events:
+    'transitionend' : 'onTransitionEnd'
 
   cells: null
   canvasWidth: 0
   canvasHeight: 0
   duration: 50
+
   constructor: ->
     super
     Spine.bind "command", @consume
 
-  prepareWithModel: ->
+  # prepareWithModel: ->
 
   consume: (command) =>
     switch command.name
@@ -43,6 +48,8 @@ module.exports = class Renderer extends BaseController
         @quitGame()
 
   createGrid: (command) ->
+    # @message.hide()
+    @el.removeClass 'quit'
     @canvasWidth = command.args.w
     @canvasHeight = command.args.h
     @cells = []
@@ -149,3 +156,6 @@ module.exports = class Renderer extends BaseController
 
   quitGame: ->
     @el.addClass 'quit'
+
+  onTransitionEnd: ->
+    @message.show()
